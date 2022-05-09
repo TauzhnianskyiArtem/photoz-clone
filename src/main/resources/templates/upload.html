@@ -16,10 +16,10 @@
     async function uploadFile() {
         let formData = new FormData();
         formData.append("data", fileupload.files[0]);
-        await fetch('http://localhost:8080/photoz', {
+        await fetch('http://localhost:8080/v1/api/photoz', {
             method: "POST",
             body: formData
-        }).then(result =>    result.text())
+        }).then(result => result.text())
             .then(text => alert(text));
     }
 </script>

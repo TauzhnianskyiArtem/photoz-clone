@@ -1,7 +1,7 @@
-package com.jetbrains.marco.photoz.clone.web;
+package com.photoz.clone.api.controller;
 
-import com.jetbrains.marco.photoz.clone.model.Photo;
-import com.jetbrains.marco.photoz.clone.service.PhotozService;
+import com.photoz.clone.store.entity.Photo;
+import com.photoz.clone.service.PhotozService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -9,37 +9,29 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.Collection;
 
 @RequiredArgsConstructor
+@RequestMapping("/v1/api/photoz")
 @RestController
 public class PhotozController {
 
     private final PhotozService photozService;
 
-    @GetMapping("/")
-    public String hello() {
-        return "Hello World";
+    @PostMapping
+    public Photo create(@RequestPart("data") MultipartFile file) throws IOException {
+        return photozService.save(file.getOriginalFilename(), file.getContentType(), file.getInputStream());
     }
 
-    @GetMapping("/photoz")
-    public Iterable<Photo> get() {
-        return photozService.get();
-    }
-
-    @GetMapping("/photoz/{id}")
+    @GetMapping("{id}")
     public Photo get(@PathVariable Integer id) {
         return photozService.get(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/photoz/{id}")
+    @DeleteMapping("{id}")
     public void delete(@PathVariable Integer id) {
         photozService.remove(id);
     }
 
-    @PostMapping("/photoz")
-    public Photo create(@RequestPart("data") MultipartFile file) throws IOException {
-        return photozService.save(file.getOriginalFilename(), file.getContentType(), file.getInputStream());
-    }
+
 }

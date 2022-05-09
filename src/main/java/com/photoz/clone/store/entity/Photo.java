@@ -1,4 +1,4 @@
-package com.jetbrains.marco.photoz.clone.model;
+package com.photoz.clone.store.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

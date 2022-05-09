@@ -1,6 +1,5 @@
-package com.jetbrains.marco.photoz.clone.service;
+package com.photoz.clone.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

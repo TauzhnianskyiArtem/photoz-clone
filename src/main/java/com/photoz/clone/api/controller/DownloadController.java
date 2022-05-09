@@ -1,28 +1,28 @@
-package com.jetbrains.marco.photoz.clone.web;
+package com.photoz.clone.api.controller;
 
-import com.jetbrains.marco.photoz.clone.model.Photo;
-import com.jetbrains.marco.photoz.clone.service.ImageService;
-import com.jetbrains.marco.photoz.clone.service.PhotozService;
+import com.photoz.clone.store.entity.Photo;
+import com.photoz.clone.service.ImageService;
+import com.photoz.clone.service.PhotozService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.notFound;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/v1/api/download")
 public class DownloadController {
 
     private final PhotozService photozService;
     private final ImageService imageService;
 
 
-    @GetMapping("/download/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<byte[]> download(@PathVariable Integer id) {
         Photo photo = photozService.get(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

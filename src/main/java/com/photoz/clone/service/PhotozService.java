@@ -1,7 +1,7 @@
-package com.jetbrains.marco.photoz.clone.service;
+package com.photoz.clone.service;
 
-import com.jetbrains.marco.photoz.clone.model.Photo;
-import com.jetbrains.marco.photoz.clone.repository.PhotozRepository;
+import com.photoz.clone.store.entity.Photo;
+import com.photoz.clone.store.repository.PhotozRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
