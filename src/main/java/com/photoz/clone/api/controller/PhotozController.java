@@ -4,6 +4,8 @@ import com.photoz.clone.store.entity.Photo;
 import com.photoz.clone.service.PhotozService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,8 +20,8 @@ public class PhotozController {
     private final PhotozService photozService;
 
     @PostMapping
-    public Photo create(@RequestPart("data") MultipartFile file) throws IOException {
-        return photozService.save(file.getOriginalFilename(), file.getContentType(), file.getInputStream());
+    public Photo create(@RequestPart("data") MultipartFile file, @AuthenticationPrincipal User user) throws IOException {
+        return photozService.save(file.getOriginalFilename(), file.getContentType(), file.getInputStream(), user.getUsername());
     }
 
     @GetMapping("{id}")

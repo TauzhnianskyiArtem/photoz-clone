@@ -25,4 +25,8 @@ public class Photo {
 
     private String contentType;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
+
 }
