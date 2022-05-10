@@ -1,15 +1,23 @@
 package com.photoz.clone.service;
 
+import com.photoz.clone.api.dto.PhotozFilter;
+import com.photoz.clone.api.dto.PhotozReadDto;
+import com.photoz.clone.api.mapper.PhotozReadMapper;
 import com.photoz.clone.store.entity.Photo;
 import com.photoz.clone.store.entity.User;
+import com.photoz.clone.store.querydsl.QPredicates;
 import com.photoz.clone.store.repository.PhotozRepository;
 import com.photoz.clone.store.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.util.Optional;
+
+import static com.photoz.clone.store.entity.QPhoto.photo;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -17,6 +25,7 @@ import java.util.Optional;
 public class PhotozService {
 
     private final PhotozRepository photozRepository;
+    private final PhotozReadMapper photozReadMapper;
     private final UserRepository userRepository;
     private final ImageService imageService;
 
@@ -24,17 +33,17 @@ public class PhotozService {
         return photozRepository.findAll();
     }
 
-    public Optional<Photo> get(Integer id) {
-        return photozRepository.findById(id);
+    public Optional<PhotozReadDto> get(Long id) {
+        return photozRepository.findById(id).map(photozReadMapper::map);
     }
 
     @Transactional
-    public void remove(Integer id) {
+    public void remove(Long id) {
         photozRepository.deleteById(id);
     }
 
     @Transactional
-    public Photo save(String fileName, String contentType, InputStream inputStream, String username) {
+    public PhotozReadDto save(String fileName, String contentType, InputStream inputStream, String username) {
         imageService.upload(fileName, inputStream);
         User author = userRepository.findByUsername(username).orElseThrow();
         Photo photo = Photo.builder()
@@ -42,7 +51,17 @@ public class PhotozService {
                 .fileName(fileName)
                 .author(author)
                 .build();
-        photozRepository.save(photo);
-        return photo;
+        Photo savedPhoto = photozRepository.save(photo);
+        return photozReadMapper.map(savedPhoto);
+    }
+
+    public Page<PhotozReadDto> findAll(PhotozFilter filter, Pageable pageable) {
+        var predicate = QPredicates.builder()
+                .add(filter.getFileName(), photo.fileName::containsIgnoreCase)
+                .add(filter.getContentType(), photo.contentType::containsIgnoreCase)
+                .build();
+
+        return photozRepository.findAll(predicate, pageable)
+                .map(photozReadMapper::map);
     }
 }

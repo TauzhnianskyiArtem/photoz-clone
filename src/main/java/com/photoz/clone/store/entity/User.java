@@ -41,7 +41,7 @@ public class User extends AuditingEntity {
 
     @NotAudited
     @Builder.Default
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Photo> photos = new ArrayList<>();
 }
 

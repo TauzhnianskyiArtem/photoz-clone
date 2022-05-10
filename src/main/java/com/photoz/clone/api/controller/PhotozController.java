@@ -1,6 +1,6 @@
 package com.photoz.clone.api.controller;
 
-import com.photoz.clone.store.entity.Photo;
+import com.photoz.clone.api.dto.PhotozReadDto;
 import com.photoz.clone.service.PhotozService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,18 +20,18 @@ public class PhotozController {
     private final PhotozService photozService;
 
     @PostMapping
-    public Photo create(@RequestPart("data") MultipartFile file, @AuthenticationPrincipal User user) throws IOException {
+    public PhotozReadDto create(@RequestPart("data") MultipartFile file, @AuthenticationPrincipal User user) throws IOException {
         return photozService.save(file.getOriginalFilename(), file.getContentType(), file.getInputStream(), user.getUsername());
     }
 
     @GetMapping("{id}")
-    public Photo get(@PathVariable Integer id) {
+    public PhotozReadDto get(@PathVariable Long id) {
         return photozService.get(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable Long id) {
         photozService.remove(id);
     }
 

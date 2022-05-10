@@ -1,6 +1,6 @@
 package com.photoz.clone.api.controller;
 
-import com.photoz.clone.store.entity.Photo;
+import com.photoz.clone.api.dto.PhotozReadDto;
 import com.photoz.clone.service.ImageService;
 import com.photoz.clone.service.PhotozService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ public class DownloadController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<byte[]> download(@PathVariable Integer id) {
-        Photo photo = photozService.get(id)
+    public ResponseEntity<byte[]> download(@PathVariable Long id) {
+        PhotozReadDto photo = photozService.get(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         ContentDisposition build = ContentDisposition
                 .builder("attachment")
