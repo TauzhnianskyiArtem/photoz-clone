@@ -14,3 +14,12 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 648708191377-h7s8ie4n5a2k1evukv9kl9b73e6vjhl7.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: http://localhost:8080/login/oauth2/code/google
+            scope: openid,email,profile

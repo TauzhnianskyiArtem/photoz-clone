@@ -17,9 +17,6 @@ public class UserCreateEditDto {
     @NotBlank
     String rawPassword;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate birthDate;
-
     @Size(min = 3, max = 64)
     String firstname;
 

@@ -9,7 +9,6 @@ import java.time.LocalDate;
 public class UserReadDto {
     Long id;
     String username;
-    LocalDate birthDate;
     String firstname;
     String lastname;
     Role role;

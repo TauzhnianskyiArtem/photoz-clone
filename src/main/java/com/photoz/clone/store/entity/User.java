@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @ToString(exclude = "photos")
-@EqualsAndHashCode(of = "username")
+@EqualsAndHashCode(callSuper=false, of = "username")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,8 +29,6 @@ public class User extends AuditingEntity {
     private String username;
 
     private String password;
-
-    private LocalDate birthDate;
 
     private String firstname;
 

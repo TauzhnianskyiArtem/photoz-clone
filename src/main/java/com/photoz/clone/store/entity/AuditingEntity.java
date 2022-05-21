@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,9 +19,9 @@ import java.time.Instant;
 public abstract class AuditingEntity{
 
     @CreatedDate
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private Instant modifiedAt;
+    private LocalDateTime modifiedAt;
 
 }
